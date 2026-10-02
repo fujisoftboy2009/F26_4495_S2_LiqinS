@@ -1,0 +1,5 @@
+# Ignore local datasets
+LocalData/
+
+# Ignore Jupyter temporary files
+.ipynb_checkpoints/
