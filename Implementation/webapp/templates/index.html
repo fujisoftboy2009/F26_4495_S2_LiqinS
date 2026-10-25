@@ -166,5 +166,17 @@
         <button type="submit">Predict</button>
 
     </form>
+
+    {% if prediction %}
+
+    <h2>Prediction Result</h2>
+
+    <p>Prediction: {{ prediction }}</p>
+    
+    <p>Diabetes: {{ "%.1f"|format(probabilities["Diabetes"] * 100) }}%</p>
+    <p>No Diabetes: {{ "%.1f"|format(probabilities["No Diabetes"] * 100) }}%</p>
+    <p>Prediabetes: {{ "%.1f"|format(probabilities["Prediabetes"] * 100) }}%</p>
+
+    {% endif %}
 </body>
 </html>
