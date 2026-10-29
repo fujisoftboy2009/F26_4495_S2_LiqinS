@@ -1,0 +1,9 @@
+Model,Accuracy,Diabetes_F1,Prediabetes_Recall,Prediabetes_F1,Macro_F1
+Baseline Logistic Regression,0.827,0.227,0.0,0.0,0.377
+Weighted Logistic Regression,0.625,0.411,0.317,0.096,0.423
+Oversampled Logistic Regression,0.625,0.41,0.319,0.096,0.423
+Custom-weight Logistic Regression,0.769,0.439,0.051,0.064,0.456
+Baseline Random Forest,0.821,0.264,0.0,0.001,0.388
+Weighted Random Forest,0.821,0.23,0.0,0.001,0.377
+Oversampled Random Forest,0.803,0.347,0.007,0.012,0.416
+HistGradientBoosting,0.614,0.421,0.293,0.089,0.42
