@@ -15,13 +15,10 @@ MODELS_DIR = os.path.join(BASE_DIR, "..", "models")
 
 # Load saved preprocessing pipeline and model
 preprocessor = joblib.load(
-    os.path.join(MODELS_DIR, "preprocessor.pkl")
-)
+    os.path.join(MODELS_DIR, "preprocessor.pkl"))
 
 model = joblib.load(
-    os.path.join(MODELS_DIR, "weighted_logistic_model.pkl")
-)
-
+    os.path.join(MODELS_DIR, "weighted_logistic_model.pkl"))
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -30,7 +27,6 @@ def home():
     probabilities = None
 
     if request.method == "POST":
-
         # Get the 13 inputs from the web form
         new_person = pd.DataFrame([{
             "Age": float(request.form["Age"]),
@@ -56,9 +52,7 @@ def home():
 
         # Get prediction scores
         probabilities = dict(
-            zip(model.classes_, model.predict_proba(processed_input)[0]
-                )
-)
+            zip(model.classes_, model.predict_proba(processed_input)[0]))
 
         print("Prediction:", prediction)
         print("Classes:", model.classes_)
@@ -69,10 +63,8 @@ def home():
         prediction=prediction,
         probabilities=probabilities)
 
-
 def open_browser():
     webbrowser.open("http://127.0.0.1:5000")
-
 
 if __name__ == "__main__":
 
