@@ -63,6 +63,12 @@ def home():
         prediction=prediction,
         probabilities=probabilities)
 
+
+
+@app.route("/health-information")
+def health_information():
+    return render_template("healthInformation.html")
+
 def open_browser():
     webbrowser.open("http://127.0.0.1:5000")
 

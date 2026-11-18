@@ -62,7 +62,8 @@
                         <div class="field-group"><label for="Education">Education</label><select id="Education" name="Education" required><option value="" selected disabled>Select education level</option><option value="Did Not Graduate High School">Did Not Graduate High School</option><option value="High School Graduate">High School Graduate</option><option value="Attended College or Technical School">Attended College or Technical School</option><option value="College or Technical School Graduate">College or Technical School Graduate</option></select></div>
                         <div class="field-group field-span-2"><label for="Income_Group">Annual Household Income</label><select id="Income_Group" name="Income_Group" required><option value="" selected disabled>Select income group</option><option value="Less than $15,000">Less than $15,000</option><option value="$15,000 to < $25,000">$15,000 to &lt; $25,000</option><option value="$25,000 to < $35,000">$25,000 to &lt; $35,000</option><option value="$35,000 to < $50,000">$35,000 to &lt; $50,000</option><option value="$50,000 to < $100,000">$50,000 to &lt; $100,000</option><option value="$100,000 to < $200,000">$100,000 to &lt; $200,000</option><option value="$200,000 or more">$200,000 or more</option></select></div>
                     </div>
-                    <div class="form-actions form-actions-end"><button type="button" class="btn btn-primary next-btn">Continue</button></div>
+                    <div class="form-actions form-actions-end"><button type="button" class="btn btn-primary next-btn">
+                        <a href="{{ url_for('health_information') }}" class="btn btn-primary">Continue</a></button></div>
                 </section>
 
                 <section class="form-step" data-step="2">
@@ -99,7 +100,9 @@
         </section>
         {% endif %}
 
-        <section class="about-section" id="about"><h2>About This Project</h2><p>This course project uses 2025 CDC BRFSS data and a weighted logistic regression model to classify reported diabetes status into No Diabetes, Prediabetes, or Diabetes. The application is intended for research and educational demonstration only.</p></section>
+        <section class="about-section" id="about"><h2>About This Project</h2>
+            <p>This course project uses 2025 CDC BRFSS data and a weighted logistic regression model to classify reported diabetes status into No Diabetes, Prediabetes, or Diabetes. The application is intended for research and educational demonstration only.</p>
+        </section>
     </main>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
