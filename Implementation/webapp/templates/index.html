@@ -100,8 +100,25 @@
         </section>
         {% endif %}
 
-        <section class="about-section" id="about"><h2>About This Project</h2>
-            <p>This course project uses 2025 CDC BRFSS data and a weighted logistic regression model to classify reported diabetes status into No Diabetes, Prediabetes, or Diabetes. The application is intended for research and educational demonstration only.</p>
+        <section class="about-section" id="about">
+            <h2>About This Project</h2>
+            <p>
+                This course project uses 2025 CDC BRFSS data and a
+                weighted logistic regression model to classify reported
+                diabetes status into No Diabetes, Prediabetes, or Diabetes.
+            </p>
+
+            <div class="disclaimer-section">
+                <h3>Disclaimer</h3>
+                <p>
+                    This tool is developed for educational and research
+                    purposes only. The prediction results are based on
+                    a machine learning model and are not intended to
+                    provide medical advice or diagnosis. Please consult
+                    a qualified healthcare professional for any medical
+                    concerns.
+                </p>
+            </div>
         </section>
     </main>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

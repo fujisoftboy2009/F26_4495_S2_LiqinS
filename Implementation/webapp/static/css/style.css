@@ -484,6 +484,30 @@ h1,h2,h3,p {
     margin-bottom:0
 }
 
+/* ==============================
+   Disclaimer
+   ============================== */
+
+.disclaimer-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.disclaimer-section h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #123854;
+    font-weight: 600;
+}
+
+.disclaimer-section p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #64748b;
+}
+
 /* =========================
    12. Responsive / mobile
    ========================= */
