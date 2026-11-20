@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import pandas as pd
 import joblib
 import os
@@ -6,6 +6,11 @@ import webbrowser
 from threading import Timer
 
 app = Flask(__name__)
+
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "development-secret-key"
+)
 
 # Get the current webapp folder
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -23,51 +28,53 @@ model = joblib.load(
 @app.route("/", methods=["GET", "POST"])
 def home():
 
-    prediction = None
-    probabilities = None
+    if request.method == "POST":
+
+        session["step1"] = {
+            "Age": request.form["Age"],
+            "Sex": request.form["Sex"],
+            "Race_Ethnicity": request.form["Race_Ethnicity"],
+            "Education": request.form["Education"],
+            "Income_Group": request.form["Income_Group"]
+        }
+
+        return redirect(url_for("health_information"))
+
+    return render_template("index.html")
+
+
+
+@app.route("/health-information", methods=["GET", "POST"])
+def health_information():
 
     if request.method == "POST":
-        # Get the 13 inputs from the web form
-        new_person = pd.DataFrame([{
-            "Age": float(request.form["Age"]),
-            "Sex": request.form["Sex"],
-            "BMI": float(request.form["BMI"]),
+
+        session["step2"] = {
+            "BMI": request.form["BMI"],
             "HighBP": request.form["HighBP"],
-            "Smoking_Status": request.form["Smoking_Status"],
             "HighChol": request.form["HighChol"],
-            "Physical_Activity": request.form["Physical_Activity"],
-            "Education": request.form["Education"],
-            "Income_Group": request.form["Income_Group"],
-            "Race_Ethnicity": request.form["Race_Ethnicity"],
-            "Fruit_Per_Day": float(request.form["Fruit_Per_Day"]),
-            "Vegetable_Per_Day": float(request.form["Vegetable_Per_Day"]),
             "General_Health": request.form["General_Health"]
-        }])
+        }
 
-        # Process the input using the saved preprocessing pipeline
-        processed_input = preprocessor.transform(new_person)
+        return redirect(url_for("lifestyle"))
 
-        # Make prediction
-        prediction = model.predict(processed_input)[0]
-
-        # Get prediction scores
-        probabilities = dict(
-            zip(model.classes_, model.predict_proba(processed_input)[0]))
-
-        print("Prediction:", prediction)
-        print("Classes:", model.classes_)
-        print("Prediction scores:", probabilities)
-
-    return render_template(
-        "index.html",    
-        prediction=prediction,
-        probabilities=probabilities)
-
-
-
-@app.route("/health-information")
-def health_information():
     return render_template("healthInformation.html")
+
+@app.route("/lifestyle", methods=["GET", "POST"])
+def lifestyle():
+
+    if request.method == "POST":
+
+        session["step3"] = {
+            "Smoking_Status": request.form["Smoking_Status"],
+            "Physical_Activity": request.form["Physical_Activity"],
+            "Fruit_Per_Day": request.form["Fruit_Per_Day"],
+            "Vegetable_Per_Day": request.form["Vegetable_Per_Day"]
+        }
+
+        return redirect(url_for("review"))
+
+    return render_template("lifestyle.html")
 
 def open_browser():
     webbrowser.open("http://127.0.0.1:5000")
