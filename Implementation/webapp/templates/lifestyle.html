@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+...
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <section class="assessment-card">
+
+    <div class="step-heading">
+        <span class="step-kicker">Step 3 of 4</span>
+        <h2>Lifestyle</h2>
+        <p>Please provide some information about your lifestyle.</p>
+    </div>
+
+
+    <!-- Progress Bar -->
+    <div class="progress-wrap">
+
+        <div class="progress-track">
+            <div class="progress-fill" style="width: 75%;"></div>
+        </div>
+
+        <div class="step-indicators">
+
+            <div class="step-indicator completed">
+                <span>1</span>
+                <small>About You</small>
+            </div>
+
+            <div class="step-indicator completed">
+                <span>2</span>
+                <small>Health</small>
+            </div>
+
+            <div class="step-indicator active">
+                <span>3</span>
+                <small>Lifestyle</small>
+            </div>
+
+            <div class="step-indicator">
+                <span>4</span>
+                <small>Review</small>
+            </div>
+
+        </div>
+    </div>
+
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <!-- Smoking -->
+            <div class="field-group">
+                <label for="Smoking_Status">Smoking Status</label>
+
+                <select
+                    id="Smoking_Status"
+                    name="Smoking_Status"
+                    required
+                >
+                    <option value="" selected disabled>
+                        Select smoking status
+                    </option>
+
+                    <option value="Never Smoked">
+                        Never Smoked
+                    </option>
+
+                    <option value="Former Smoker">
+                        Former Smoker
+                    </option>
+
+                    <option value="Current Smoker - Every Day">
+                        Current Smoker - Every Day
+                    </option>
+
+                    <option value="Current Smoker - Some Days">
+                        Current Smoker - Some Days
+                    </option>
+
+                </select>
+            </div>
+
+
+            <!-- Physical Activity -->
+            <fieldset class="field-group">
+
+                <legend>Physical Activity</legend>
+
+                <div class="choice-row">
+
+                    <label class="choice-card">
+
+                        <input
+                            type="radio"
+                            name="Physical_Activity"
+                            value="Physically Active"
+                            required
+                        >
+
+                        <span>Yes</span>
+
+                    </label>
+
+
+                    <label class="choice-card">
+
+                        <input
+                            type="radio"
+                            name="Physical_Activity"
+                            value="No Physical Activity"
+                        >
+
+                        <span>No</span>
+
+                    </label>
+
+                </div>
+
+            </fieldset>
+
+
+            <!-- Fruit -->
+            <div class="field-group">
+
+                <label for="Fruit_Per_Day">
+                    Fruit Intake
+                </label>
+
+                <input
+                    id="Fruit_Per_Day"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    name="Fruit_Per_Day"
+                    placeholder="Average times per day"
+                    required
+                >
+
+                <small>
+                    Example: 1 = once per day,
+                    0.5 = once every two days.
+                </small>
+
+            </div>
+
+
+            <!-- Vegetables -->
+            <div class="field-group">
+
+                <label for="Vegetable_Per_Day">
+                    Vegetable Intake
+                </label>
+
+                <input
+                    id="Vegetable_Per_Day"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    name="Vegetable_Per_Day"
+                    placeholder="Average times per day"
+                    required
+                >
+
+                <small>
+                    Example: 1 = once per day,
+                    0.5 = once every two days.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <a
+                href="{{ url_for('health_information') }}"
+                class="btn btn-secondary"
+            >
+                Back
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Review Answers
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
