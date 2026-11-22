@@ -124,7 +124,7 @@ h1,h2,h3,p {
 .assessment-heading h1,.result-card h1 {
     margin-bottom:10px;
     color:var(--navy);
-    font-size:clamp(2rem,4vw,2.8rem);
+    font-size:clamp(2rem,4vw,2rem);
     line-height:1.12
 }
 
@@ -327,8 +327,9 @@ h1,h2,h3,p {
     gap:12px
 }
 
-.form-actions-end {
-    justify-content:flex-end
+.form-actions.form-actions-end {
+    width: 100%;
+    justify-content: flex-end;
 }
 
 .btn {
@@ -354,13 +355,13 @@ h1,h2,h3,p {
 }
 
 .btn-secondary {
-    background:var(--white);
-    color:var(--navy);
-    border-color:var(--border)
+    background: var(--blue-soft);
+    color: var(--navy);
+    border-color: #c9dce9;
 }
 
 .btn-secondary:hover {
-    background:#f7fafc
+    background: #dcecf6;
 }
 
 /* =========================
@@ -425,7 +426,7 @@ h1,h2,h3,p {
     border-radius:999px;
     background:var(--blue-soft);
     color:var(--navy);
-    font-size:1.2rem;
+    font-size:2.5rem;
     font-weight:800
 }
 
@@ -561,4 +562,63 @@ h1,h2,h3,p {
         flex:1
     }
 
+}
+
+/* =========================
+   Data Dashboard
+   ========================= */
+
+.dashboard-section {
+    margin-top: 36px;
+}
+
+.dashboard-section h2 {
+    margin-bottom: 16px;
+    color: var(--navy);
+}
+
+.dashboard-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.dashboard-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 28px 0 24px;
+}
+
+.dashboard-tab {
+    padding: 10px 18px;
+    border: 1px solid #c9dce9;
+    border-radius: 8px;
+    background: var(--blue-soft);
+    color: var(--navy);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.dashboard-tab:hover,
+.dashboard-tab.active {
+    background: var(--navy);
+    color: white;
+}
+
+.dashboard-panel {
+    display: none;
+}
+
+.dashboard-panel.active {
+    display: block;
+}
+
+.dashboard-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
 }

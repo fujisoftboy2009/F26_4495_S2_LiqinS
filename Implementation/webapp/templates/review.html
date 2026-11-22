@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Health Information - Diabetes Risk Assessment</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a class="brand" href="{{ url_for('home') }}">
+            Diabetes Risk Assessment
+        </a>
+
+        <nav class="top-nav">
+            <a class="active" href="{{ url_for('home') }}">
+                Risk Assessment
+            </a>
+             <a href="{{ url_for('dashboard') }}">Data Dashboard</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </nav>
+    </div>
+</header>
+
+<main class="page-shell">
+
+    <section class="assessment-card">
+
+        <div class="step-heading">
+            <span class="step-kicker">Step 4 of 4</span>
+            <h2>Review & Predict</h2>
+            <p>Please review your responses before generating your result.</p>
+        </div>
+
+
+        <!-- Progress Bar -->
+        <div class="progress-wrap">
+
+            <div class="progress-track">
+                <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+
+            <div class="step-indicators">
+
+                <div class="step-indicator completed">
+                    <span>1</span>
+                    <small>About You</small>
+                </div>
+
+                <div class="step-indicator completed">
+                    <span>2</span>
+                    <small>Health</small>
+                </div>
+
+                <div class="step-indicator completed">
+                    <span>3</span>
+                    <small>Lifestyle</small>
+                </div>
+
+                <div class="step-indicator active">
+                    <span>4</span>
+                    <small>Review</small>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- About You -->
+        <div class="review-section">
+
+            <h3>About You</h3>
+
+            <div class="review-grid">
+
+                <div>
+                    <span>Age</span>
+                    <strong>{{ answers["Age"] }}</strong>
+                </div>
+
+                <div>
+                    <span>Sex</span>
+                    <strong>{{ answers["Sex"] }}</strong>
+                </div>
+
+                <div>
+                    <span>Race / Ethnicity</span>
+                    <strong>{{ answers["Race_Ethnicity"] }}</strong>
+                </div>
+
+                <div>
+                    <span>Education</span>
+                    <strong>{{ answers["Education"] }}</strong>
+                </div>
+
+                <div>
+                    <span>Annual Household Income</span>
+                    <strong>{{ answers["Income_Group"] }}</strong>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Health -->
+        <div class="review-section">
+
+            <h3>Health Information</h3>
+
+            <div class="review-grid">
+
+                <div>
+                    <span>BMI</span>
+                    <strong>{{ answers["BMI"] }}</strong>
+                </div>
+
+                <div>
+                    <span>High Blood Pressure</span>
+                    <strong>
+                        {% if answers["HighBP"] == "High Blood Pressure" %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div>
+                    <span>High Cholesterol</span>
+                    <strong>
+                        {% if answers["HighChol"] == "High Cholesterol" %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div>
+                    <span>General Health</span>
+                    <strong>{{ answers["General_Health"] }}</strong>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Lifestyle -->
+        <div class="review-section">
+
+            <h3>Lifestyle</h3>
+
+            <div class="review-grid">
+
+                <div>
+                    <span>Smoking Status</span>
+                    <strong>{{ answers["Smoking_Status"] }}</strong>
+                </div>
+
+                <div>
+                    <span>Physical Activity</span>
+                    <strong>
+                        {% if answers["Physical_Activity"] == "Physically Active" %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Fruit Intake</span>
+                    <strong>{{ answers["Fruit_Per_Day"] }} times/day</strong>
+                </div>
+
+                <div>
+                    <span>Vegetable Intake</span>
+                    <strong>{{ answers["Vegetable_Per_Day"] }} times/day</strong>
+                </div>
+
+            </div>
+        </div>
+
+
+ <!-- Buttons -->
+    <form method="POST">
+
+        <div class="form-actions">
+
+            <a href="{{ url_for('lifestyle') }}"
+               class="btn btn-secondary">
+                Back
+            </a>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Predict Risk
+            </button>
+
+        </div>
+
+    </form>
+
+
+    </section>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>

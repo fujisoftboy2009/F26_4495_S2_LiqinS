@@ -13,8 +13,8 @@
             <a class="brand" href="{{ url_for('home') }}">Diabetes Risk Assessment</a>
             <nav class="top-nav" aria-label="Main navigation">
                 <a class="active" href="{{ url_for('home') }}">Risk Assessment</a>
-                <a href="#" class="placeholder-link" title="Power BI link will be added later">Data Dashboard</a>
-                <a href="#about">About</a>
+                <a href="{{ url_for('dashboard') }}">Data Dashboard</a>
+                <a href="{{ url_for('about') }}">About</a>
             </nav>
         </div>
     </header>
@@ -52,50 +52,179 @@
                 </div>
             </div>
 
-            <form method="POST" id="riskForm" novalidate>
+            <form method="POST" id="riskForm" >
                 <section class="form-step active" data-step="1">
                     <div class="step-heading"><span class="step-kicker">Step 1 of 4</span><h2>About You</h2><p>Tell us a little about your demographic background.</p></div>
                     <div class="form-grid">
-                        <div class="field-group"><label for="Age">Age</label><input id="Age" type="number" name="Age" min="18" max="80" placeholder="Enter age" required><small>Age range used by this assessment: 18–80.</small></div>
-                        <div class="field-group"><label for="Sex">Sex</label><select id="Sex" name="Sex" required><option value="" selected disabled>Select sex</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
-                        <div class="field-group"><label for="Race_Ethnicity">Race / Ethnicity</label><select id="Race_Ethnicity" name="Race_Ethnicity" required><option value="" selected disabled>Select race / ethnicity</option><option value="White, Non-Hispanic">White, Non-Hispanic</option><option value="Black, Non-Hispanic">Black, Non-Hispanic</option><option value="Asian, Non-Hispanic">Asian, Non-Hispanic</option><option value="American Indian/Alaska Native, Non-Hispanic">American Indian/Alaska Native, Non-Hispanic</option><option value="Native Hawaiian/Pacific Islander, Non-Hispanic">Native Hawaiian/Pacific Islander, Non-Hispanic</option><option value="Multiracial, Non-Hispanic">Multiracial, Non-Hispanic</option><option value="Hispanic">Hispanic</option><option value="Other Race, Non-Hispanic">Other Race, Non-Hispanic</option></select></div>
-                        <div class="field-group"><label for="Education">Education</label><select id="Education" name="Education" required><option value="" selected disabled>Select education level</option><option value="Did Not Graduate High School">Did Not Graduate High School</option><option value="High School Graduate">High School Graduate</option><option value="Attended College or Technical School">Attended College or Technical School</option><option value="College or Technical School Graduate">College or Technical School Graduate</option></select></div>
-                        <div class="field-group field-span-2"><label for="Income_Group">Annual Household Income</label><select id="Income_Group" name="Income_Group" required><option value="" selected disabled>Select income group</option><option value="Less than $15,000">Less than $15,000</option><option value="$15,000 to < $25,000">$15,000 to &lt; $25,000</option><option value="$25,000 to < $35,000">$25,000 to &lt; $35,000</option><option value="$35,000 to < $50,000">$35,000 to &lt; $50,000</option><option value="$50,000 to < $100,000">$50,000 to &lt; $100,000</option><option value="$100,000 to < $200,000">$100,000 to &lt; $200,000</option><option value="$200,000 or more">$200,000 or more</option></select></div>
+                        <div class="field-group"><label for="Age">Age</label><input
+                            id="Age"
+                            type="number"
+                            name="Age"
+                            min="18"
+                            max="80"
+                            value="{{ form_data.get('Age', '45') }}"
+                            placeholder="Enter age"
+                            required
+                        ><small>Age range used by this assessment: 18–80.</small></div>
+                        <div class="field-group"><label for="Sex">Sex</label><select id="Sex" name="Sex" required>
+                            <option value=""
+                                {% if not form_data.get("Sex") %}selected{% endif %}
+                                disabled>
+                                Select sex
+                            </option>
+
+                            <option value="Male"
+                                {% if form_data.get("Sex") == "Male" %}selected{% endif %}>
+                                Male
+                            </option>
+
+                            <option value="Female"
+                                {% if form_data.get("Sex") == "Female" %}selected{% endif %}>
+                                Female
+                            </option>
+
+                        </select></div>
+                        <div class="field-group">
+                            <label for="Race_Ethnicity">Race / Ethnicity</label>
+
+                            <select id="Race_Ethnicity" name="Race_Ethnicity" required>
+
+                                <option value="" disabled
+                                    {% if not form_data.get("Race_Ethnicity") %}selected{% endif %}>
+                                    Select race / ethnicity
+                                </option>
+
+                                <option value="White, Non-Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "White, Non-Hispanic" %}selected{% endif %}>
+                                    White, Non-Hispanic
+                                </option>
+
+                                <option value="Black, Non-Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "Black, Non-Hispanic" %}selected{% endif %}>
+                                    Black, Non-Hispanic
+                                </option>
+
+                                <option value="Asian, Non-Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "Asian, Non-Hispanic" %}selected{% endif %}>
+                                    Asian, Non-Hispanic
+                                </option>
+
+                                <option value="American Indian/Alaska Native, Non-Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "American Indian/Alaska Native, Non-Hispanic" %}selected{% endif %}>
+                                    American Indian/Alaska Native, Non-Hispanic
+                                </option>
+
+                                <option value="Native Hawaiian/Pacific Islander, Non-Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "Native Hawaiian/Pacific Islander, Non-Hispanic" %}selected{% endif %}>
+                                    Native Hawaiian/Pacific Islander, Non-Hispanic
+                                </option>
+
+                                <option value="Multiracial, Non-Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "Multiracial, Non-Hispanic" %}selected{% endif %}>
+                                    Multiracial, Non-Hispanic
+                                </option>
+
+                                <option value="Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "Hispanic" %}selected{% endif %}>
+                                    Hispanic
+                                </option>
+
+                                <option value="Other Race, Non-Hispanic"
+                                    {% if form_data.get("Race_Ethnicity") == "Other Race, Non-Hispanic" %}selected{% endif %}>
+                                    Other Race, Non-Hispanic
+                                </option>
+
+                            </select>
+                        </div>
+
+
+                        <div class="field-group">
+                            <label for="Education">Education</label>
+
+                            <select id="Education" name="Education" required>
+
+                                <option value="" disabled
+                                    {% if not form_data.get("Education") %}selected{% endif %}>
+                                    Select education level
+                                </option>
+
+                                <option value="Did Not Graduate High School"
+                                    {% if form_data.get("Education") == "Did Not Graduate High School" %}selected{% endif %}>
+                                    Did Not Graduate High School
+                                </option>
+
+                                <option value="High School Graduate"
+                                    {% if form_data.get("Education") == "High School Graduate" %}selected{% endif %}>
+                                    High School Graduate
+                                </option>
+
+                                <option value="Attended College or Technical School"
+                                    {% if form_data.get("Education") == "Attended College or Technical School" %}selected{% endif %}>
+                                    Attended College or Technical School
+                                </option>
+
+                                <option value="College or Technical School Graduate"
+                                    {% if form_data.get("Education") == "College or Technical School Graduate" %}selected{% endif %}>
+                                    College or Technical School Graduate
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="field-group field-span-2">
+                            <label for="Income_Group">Annual Household Income</label>
+
+                            <select id="Income_Group" name="Income_Group" required>
+
+                                <option value="" disabled
+                                    {% if not form_data.get("Income_Group") %}selected{% endif %}>
+                                    Select income group
+                                </option>
+
+                                <option value="Less than $15,000"
+                                    {% if form_data.get("Income_Group") == "Less than $15,000" %}selected{% endif %}>
+                                    Less than $15,000
+                                </option>
+
+                                <option value="$15,000 to &lt; $25,000"
+                                    {% if form_data.get("Income_Group") == "$15,000 to < $25,000" %}selected{% endif %}>
+                                    $15,000 to &lt; $25,000
+                                </option>
+
+                                <option value="$25,000 to &lt; $35,000"
+                                    {% if form_data.get("Income_Group") == "$25,000 to < $35,000" %}selected{% endif %}>
+                                    $25,000 to &lt; $35,000
+                                </option>
+
+                                <option value="$35,000 to &lt; $50,000"
+                                    {% if form_data.get("Income_Group") == "$35,000 to < $50,000" %}selected{% endif %}>
+                                    $35,000 to &lt; $50,000
+                                </option>
+
+                                <option value="$50,000 to &lt; $100,000"
+                                    {% if form_data.get("Income_Group") == "$50,000 to < $100,000" %}selected{% endif %}>
+                                    $50,000 to &lt; $100,000
+                                </option>
+
+                                <option value="$100,000 to &lt; $200,000"
+                                    {% if form_data.get("Income_Group") == "$100,000 to < $200,000" %}selected{% endif %}>
+                                    $100,000 to &lt; $200,000
+                                </option>
+
+                                <option value="$200,000 or more"
+                                    {% if form_data.get("Income_Group") == "$200,000 or more" %}selected{% endif %}>
+                                    $200,000 or more
+                                </option>
+
+                            </select>
+                        </div>
+                     </div>
+
+                    <div class="form-actions form-actions-end">
+                        <button type="submit" class="btn btn-primary">Continue</button>
                     </div>
-                    <div class="form-actions form-actions-end"><button type="button" class="btn btn-primary next-btn">
-                        <a href="{{ url_for('health_information') }}" class="btn btn-primary">Continue</a></button></div>
                 </section>
 
-                <section class="form-step" data-step="2">
-                    <div class="step-heading"><span class="step-kicker">Step 2 of 4</span><h2>Health Information</h2><p>Enter the health information used by the prediction model.</p></div>
-                    <div class="form-grid">
-                        <div class="field-group"><label for="BMI">BMI</label><input id="BMI" type="number" step="0.1" min="10" max="80" name="BMI" placeholder="Example: 24.6" required></div>
-                        <fieldset class="field-group"><legend>High Blood Pressure</legend><div class="choice-row"><label class="choice-card"><input type="radio" name="HighBP" value="High Blood Pressure" data-display="Yes" required><span>Yes</span></label><label class="choice-card"><input type="radio" name="HighBP" value="No High Blood Pressure" data-display="No"><span>No</span></label></div></fieldset>
-                        <fieldset class="field-group"><legend>High Cholesterol</legend><div class="choice-row"><label class="choice-card"><input type="radio" name="HighChol" value="High Cholesterol" data-display="Yes" required><span>Yes</span></label><label class="choice-card"><input type="radio" name="HighChol" value="No High Cholesterol" data-display="No"><span>No</span></label></div></fieldset>
-                        <div class="field-group"><label for="General_Health">General Health</label><select id="General_Health" name="General_Health" required><option value="" selected disabled>Select general health</option><option value="Excellent">Excellent</option><option value="Very Good">Very Good</option><option value="Good">Good</option><option value="Fair">Fair</option><option value="Poor">Poor</option></select></div>
-                    </div>
-                    <div class="form-actions"><button type="button" class="btn btn-secondary back-btn">Back</button><button type="submit" class="btn btn-primary">Continue</button></div>
-                </section>
-
-                <section class="form-step" data-step="3">
-                    <div class="step-heading"><span class="step-kicker">Step 3 of 4</span><h2>Lifestyle</h2><p>Provide the lifestyle information used by the model.</p></div>
-                    <div class="form-grid">
-                        <div class="field-group"><label for="Smoking_Status">Smoking Status</label><select id="Smoking_Status" name="Smoking_Status" required><option value="" selected disabled>Select smoking status</option><option value="Never Smoked">Never Smoked</option><option value="Former Smoker">Former Smoker</option><option value="Current Smoker - Every Day">Current Smoker - Every Day</option><option value="Current Smoker - Some Days">Current Smoker - Some Days</option></select></div>
-                        <fieldset class="field-group"><legend>Physical Activity</legend><div class="choice-row"><label class="choice-card"><input type="radio" name="Physical_Activity" value="Physically Active" data-display="Yes" required><span>Yes</span></label><label class="choice-card"><input type="radio" name="Physical_Activity" value="No Physical Activity" data-display="No"><span>No</span></label></div></fieldset>
-                        <div class="field-group"><label for="Fruit_Per_Day">Fruit Intake</label><input id="Fruit_Per_Day" type="number" step="any" min="0" name="Fruit_Per_Day" placeholder="Average times per day" required><small>Example: 1 = once per day; 0.5 = once every two days.</small></div>
-                        <div class="field-group"><label for="Vegetable_Per_Day">Vegetable Intake</label><input id="Vegetable_Per_Day" type="number" step="any" min="0" name="Vegetable_Per_Day" placeholder="Average times per day" required><small>Example: 1 = once per day; 0.5 = once every two days.</small></div>
-                    </div>
-                    <div class="form-actions"><button type="button" class="btn btn-secondary back-btn">Back</button><button type="button" class="btn btn-primary next-btn">Review Answers</button></div>
-                </section>
-
-                <section class="form-step" data-step="4">
-                    <div class="step-heading"><span class="step-kicker">Step 4 of 4</span><h2>Review &amp; Predict</h2><p>Please review your responses before generating the model result.</p></div>
-                    <div class="review-section"><h3>About You</h3><div class="review-grid"><div><span>Age</span><strong id="review-Age">—</strong></div><div><span>Sex</span><strong id="review-Sex">—</strong></div><div><span>Race / Ethnicity</span><strong id="review-Race_Ethnicity">—</strong></div><div><span>Education</span><strong id="review-Education">—</strong></div><div><span>Income</span><strong id="review-Income_Group">—</strong></div></div></div>
-                    <div class="review-section"><h3>Health Information</h3><div class="review-grid"><div><span>BMI</span><strong id="review-BMI">—</strong></div><div><span>High Blood Pressure</span><strong id="review-HighBP">—</strong></div><div><span>High Cholesterol</span><strong id="review-HighChol">—</strong></div><div><span>General Health</span><strong id="review-General_Health">—</strong></div></div></div>
-                    <div class="review-section"><h3>Lifestyle</h3><div class="review-grid"><div><span>Smoking Status</span><strong id="review-Smoking_Status">—</strong></div><div><span>Physical Activity</span><strong id="review-Physical_Activity">—</strong></div><div><span>Fruit Intake</span><strong id="review-Fruit_Per_Day">—</strong></div><div><span>Vegetable Intake</span><strong id="review-Vegetable_Per_Day">—</strong></div></div></div>
-                    <div class="review-note">This tool is a research and educational demonstration. It does not replace blood testing, medical diagnosis, or advice from a healthcare professional.</div>
-                    <div class="form-actions"><button type="button" class="btn btn-secondary back-btn">Back</button><button type="submit" class="btn btn-primary">Predict Risk</button></div>
-                </section>
             </form>
         </section>
         {% endif %}

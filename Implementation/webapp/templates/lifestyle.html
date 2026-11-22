@@ -7,6 +7,30 @@
 </head>
 <body>
 
+    <header class="site-header">
+        <div class="header-inner">
+
+            <a class="brand" href="{{ url_for('home') }}">
+                Diabetes Risk Assessment
+            </a>
+
+            <nav class="top-nav">
+
+                <a href="{{ url_for('home') }}">
+                    Risk Assessment
+                </a>
+
+                <a href="{{ url_for('dashboard') }}">Data Dashboard</a>
+
+                <a href="{{ url_for('about') }}">About</a>
+
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="page-shell">
+
     <section class="assessment-card">
 
     <div class="step-heading">
@@ -187,9 +211,7 @@
 
             <button
                 type="submit"
-                class="btn btn-primary"
-            >
-                Review Answers
+                class="btn btn-primary">Review Answers
             </button>
 
         </div>

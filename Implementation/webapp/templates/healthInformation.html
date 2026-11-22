@@ -25,8 +25,8 @@
             <a class="active" href="{{ url_for('home') }}">
                 Risk Assessment
             </a>
-            <a href="#">Data Dashboard</a>
-            <a href="#">About</a>
+             <a href="{{ url_for('dashboard') }}">Data Dashboard</a>
+            <a href="{{ url_for('about') }}">About</a>
         </nav>
     </div>
 </header>
@@ -73,104 +73,131 @@
         <h2>Health Information</h2>
         <p>Please provide some basic information about your health.</p>
     </div>
+    <form method="POST">
 
-    <div class="form-grid">
+<div class="form-grid">
 
-        <!-- BMI -->
-        <div class="field-group">
-            <label for="BMI">BMI</label>
-            <input
-                id="BMI"
-                type="number"
-                step="0.1"
-                min="10"
-                max="80"
-                name="BMI"
-                placeholder="Example: 24.6"
-                required
-            >
-            <small>Enter your Body Mass Index (BMI).</small>
-        </div>
+    <!-- BMI -->
+    <div class="field-group">
+        <label for="BMI">BMI</label>
 
-        <!-- High Blood Pressure -->
-        <fieldset class="field-group">
-            <legend>High Blood Pressure</legend>
+        <input
+            id="BMI"
+            type="number"
+            step="0.1"
+            min="10"
+            max="80"
+            name="BMI"
+            placeholder="Example: 24.6"
+            required
+        >
 
-            <div class="choice-row">
-                <label class="choice-card">
-                    <input
-                        type="radio"
-                        name="HighBP"
-                        value="High Blood Pressure"
-                        data-display="Yes"
-                        required
-                    >
-                    <span>Yes</span>
-                </label>
-
-                <label class="choice-card">
-                    <input
-                        type="radio"
-                        name="HighBP"
-                        value="No High Blood Pressure"
-                        data-display="No"
-                    >
-                    <span>No</span>
-                </label>
-            </div>
-        </fieldset>
-
-        <!-- High Cholesterol -->
-        <fieldset class="field-group">
-            <legend>High Cholesterol</legend>
-
-            <div class="choice-row">
-                <label class="choice-card">
-                    <input
-                        type="radio"
-                        name="HighChol"
-                        value="High Cholesterol"
-                        data-display="Yes"
-                        required
-                    >
-                    <span>Yes</span>
-                </label>
-
-                <label class="choice-card">
-                    <input
-                        type="radio"
-                        name="HighChol"
-                        value="No High Cholesterol"
-                        data-display="No"
-                    >
-                    <span>No</span>
-                </label>
-            </div>
-        </fieldset>
-
-        <!-- General Health -->
-        <div class="field-group">
-            <label for="General_Health">General Health</label>
-
-            <select id="General_Health" name="General_Health" required>
-                <option value="" selected disabled>
-                    Select general health
-                </option>
-                <option value="Excellent">Excellent</option>
-                <option value="Very Good">Very Good</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-                <option value="Poor">Poor</option>
-            </select>
-        </div>
-
+        <small>Enter your Body Mass Index (BMI).</small>
     </div>
+
+
+    <!-- High Blood Pressure -->
+    <fieldset class="field-group">
+        <legend>High Blood Pressure</legend>
+
+        <div class="choice-row">
+
+            <label class="choice-card">
+                <input
+                    type="radio"
+                    name="HighBP"
+                    value="High Blood Pressure"
+                    data-display="Yes"
+                    required
+                >
+                <span>Yes</span>
+            </label>
+
+            <label class="choice-card">
+                <input
+                    type="radio"
+                    name="HighBP"
+                    value="No High Blood Pressure"
+                    data-display="No"
+                >
+                <span>No</span>
+            </label>
+
+        </div>
+    </fieldset>
+
+
+    <!-- High Cholesterol -->
+    <fieldset class="field-group">
+        <legend>High Cholesterol</legend>
+
+        <div class="choice-row">
+
+            <label class="choice-card">
+                <input
+                    type="radio"
+                    name="HighChol"
+                    value="High Cholesterol"
+                    data-display="Yes"
+                    required
+                >
+                <span>Yes</span>
+            </label>
+
+            <label class="choice-card">
+                <input
+                    type="radio"
+                    name="HighChol"
+                    value="No High Cholesterol"
+                    data-display="No"
+                >
+                <span>No</span>
+            </label>
+
+        </div>
+    </fieldset>
+
+
+    <!-- General Health -->
+    <div class="field-group">
+        <label for="General_Health">General Health</label>
+
+        <select
+            id="General_Health"
+            name="General_Health"
+            required
+        >
+            <option value="" selected disabled>
+                Select general health
+            </option>
+
+            <option value="Excellent">Excellent</option>
+            <option value="Very Good">Very Good</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+
+        </select>
+    </div>
+
+</div>
+
 
     <div class="form-actions">
-        <a href="{{ url_for('home') }}" class="btn btn-secondary">Back</a>
 
-        <button type="submit" class="btn btn-primary">Continue</button>
+        <a href="{{ url_for('home') }}"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Continue
+        </button>
+
     </div>
+
+</form>
 
 </section>
 
