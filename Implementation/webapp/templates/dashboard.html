@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Data Dashboard - Diabetes Risk Assessment</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+
+<body>
+
+    <!-- =========================
+         Header / Navigation
+         ========================= -->
+    <header class="site-header">
+
+        <div class="header-inner">
+
+            <a class="brand" href="{{ url_for('home') }}">
+                Diabetes Risk Assessment
+            </a>
+
+            <nav class="top-nav">
+
+                <a href="{{ url_for('home') }}">
+                    Risk Assessment
+                </a>
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="active"
+                >
+                    Data Dashboard
+                </a>
+
+                <a href="{{ url_for('about') }}">About</a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         Main Content
+         ========================= -->
+    <main class="page-shell">
+
+        <section class="assessment-card">
+
+            <!-- Dashboard Heading -->
+            <div class="step-heading">
+
+                <span class="step-kicker">
+                    BRFSS 2025 ANALYSIS
+                </span>
+
+                <h1>Data Dashboard</h1>
+
+                <p>
+                    Explore key diabetes and prediabetes patterns identified
+                    in the 2025 CDC BRFSS dataset.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 Dashboard Tabs
+                 ========================= -->
+            <div class="dashboard-tabs">
+
+                <button
+                    type="button"
+                    class="dashboard-tab active"
+                    onclick="showDashboard('overview', this)"
+                >
+                    Overview
+                </button>
+
+                <button
+                    type="button"
+                    class="dashboard-tab"
+                    onclick="showDashboard('risk', this)"
+                >
+                    Risk Factors
+                </button>
+
+                <button
+                    type="button"
+                    class="dashboard-tab"
+                    onclick="showDashboard('model', this)"
+                >
+                    Model Performance
+                </button>
+
+                <button
+                    type="button"
+                    class="dashboard-tab"
+                    onclick="showDashboard('social', this)"
+                >
+                    Socioeconomic & Lifestyle
+                </button>
+
+                <button
+                    type="button"
+                    class="dashboard-tab"
+                    onclick="showDashboard('influencers', this)"
+                >
+                    Key Influencers
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+                 Overview
+                 ========================= -->
+            <div
+                id="overview"
+                class="dashboard-panel active"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='images/overview.png') }}"
+                    alt="Power BI diabetes overview dashboard"
+                    class="dashboard-image"
+                >
+
+            </div>
+
+
+            <!-- =========================
+                 Risk Factors
+                 ========================= -->
+            <div
+                id="risk"
+                class="dashboard-panel"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='images/risk_factors.png') }}"
+                    alt="Power BI diabetes risk factors dashboard"
+                    class="dashboard-image"
+                >
+
+            </div>
+
+
+            <!-- =========================
+                 Model Performance
+                 ========================= -->
+            <div
+                id="model"
+                class="dashboard-panel"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='images/model_performance.png') }}"
+                    alt="Power BI model performance dashboard"
+                    class="dashboard-image"
+                >
+
+            </div>
+
+
+            <!-- =========================
+                 Socioeconomic & Lifestyle
+                 ========================= -->
+            <div
+                id="social"
+                class="dashboard-panel"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='images/socioeconomic_lifestyle.png') }}"
+                    alt="Power BI socioeconomic and lifestyle dashboard"
+                    class="dashboard-image"
+                >
+
+            </div>
+
+
+            <!-- =========================
+                 Key Influencers
+                 ========================= -->
+            <div
+                id="influencers"
+                class="dashboard-panel"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='images/key_influencers.png') }}"
+                    alt="Power BI key influencers dashboard"
+                    class="dashboard-image"
+                >
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Existing Website JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+
+    <!-- =========================
+         Dashboard Tab Switching
+         ========================= -->
+    <script>
+
+        function showDashboard(id, button) {
+
+            // Hide all dashboard pages
+            document
+                .querySelectorAll('.dashboard-panel')
+                .forEach(panel => {
+                    panel.classList.remove('active');
+                });
+
+
+            // Remove active style from all buttons
+            document
+                .querySelectorAll('.dashboard-tab')
+                .forEach(tab => {
+                    tab.classList.remove('active');
+                });
+
+
+            // Show selected dashboard
+            document
+                .getElementById(id)
+                .classList.add('active');
+
+
+            // Highlight selected button
+            button.classList.add('active');
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
