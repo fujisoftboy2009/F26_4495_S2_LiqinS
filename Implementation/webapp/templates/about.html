@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About - Diabetes Risk Assessment</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+
+<body>
+
+    <!-- =========================
+         Header / Navigation
+         ========================= -->
+    <header class="site-header">
+
+        <div class="header-inner">
+
+            <a class="brand" href="{{ url_for('home') }}">
+                Diabetes Risk Assessment
+            </a>
+
+            <nav class="top-nav">
+
+                <a href="{{ url_for('home') }}">
+                    Risk Assessment
+                </a>
+
+                <a href="{{ url_for('dashboard') }}">
+                    Data Dashboard
+                </a>
+
+                <a
+                    href="{{ url_for('about') }}"
+                    class="active"
+                >
+                    About
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         Main Content
+         ========================= -->
+    <main class="page-shell">
+
+        <section class="assessment-card">
+
+            <!-- Page Heading -->
+            <div class="step-heading">
+
+                <span class="step-kicker">
+                    ABOUT THE PROJECT
+                </span>
+
+                <h1>
+                    Diabetes Risk Assessment
+                </h1>
+
+                <p>
+                    An applied data analytics project using 2025 CDC BRFSS
+                    data to explore diabetes risk factors and predict
+                    reported diabetes status.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 About the Project
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>About the Project</h2>
+
+                <p>
+                    This project was developed as part of the CSIS 4495
+                    Applied Research course. The goal is to combine data
+                    analytics, machine learning, data visualization, and
+                    web development into a practical diabetes risk
+                    assessment application.
+                </p>
+
+                <p>
+                    The application allows users to enter selected
+                    demographic, health, and lifestyle information and
+                    receive a model-generated classification of
+                    <strong>No Diabetes</strong>,
+                    <strong>Prediabetes</strong>, or
+                    <strong>Diabetes</strong>.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 Why Diabetes Matters
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>Why Study Diabetes Risk?</h2>
+
+                <p>
+                    Diabetes is a major chronic health condition that can
+                    affect many parts of the body. Over time, poorly
+                    controlled diabetes can contribute to complications
+                    involving the cardiovascular system, kidneys, nerves,
+                    and eyes.
+                </p>
+
+                <p>
+                    Prediabetes is also important because it may indicate
+                    increased risk of developing type 2 diabetes.
+                    Identifying patterns associated with diabetes and
+                    prediabetes can help support earlier awareness and
+                    preventive health discussions.
+                </p>
+
+                <p>
+                    This project therefore focuses not only on predicting
+                    reported diabetes status, but also on exploring how
+                    demographic, socioeconomic, health, and lifestyle
+                    factors are associated with diabetes patterns in a
+                    large population dataset.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 Data Source
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>Data Source</h2>
+
+                <p>
+                    The analysis uses the
+                    <strong>2025 Behavioral Risk Factor Surveillance System
+                    (BRFSS)</strong> public-use dataset from the
+                    U.S. Centers for Disease Control and Prevention (CDC).
+                </p>
+
+                <p>
+                    BRFSS is a large-scale health survey containing
+                    information about health conditions, health-related
+                    behaviors, demographic characteristics, and access to
+                    healthcare.
+                </p>
+
+                <p>
+                    After data preparation and selection, the analytical
+                    dataset used in this project contains approximately
+                    <strong>352,705 records</strong>.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 Model
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>Prediction Model</h2>
+
+                <p>
+                    A weighted logistic regression model was selected as
+                    the final prediction model. Survey weights from BRFSS
+                    were incorporated during model development to better
+                    reflect the survey design.
+                </p>
+
+                <p>
+                    The model uses 13 predictors:
+                </p>
+
+                <div class="about-feature-grid">
+
+                    <span>Age</span>
+                    <span>Sex</span>
+                    <span>BMI</span>
+                    <span>High Blood Pressure</span>
+                    <span>Smoking Status</span>
+                    <span>High Cholesterol</span>
+                    <span>Physical Activity</span>
+                    <span>Education</span>
+                    <span>Income Group</span>
+                    <span>Race / Ethnicity</span>
+                    <span>Fruit Intake</span>
+                    <span>Vegetable Intake</span>
+                    <span>General Health</span>
+
+                </div>
+
+                <p>
+                    The model classifies each assessment into one of three
+                    categories:
+                    <strong>No Diabetes</strong>,
+                    <strong>Prediabetes</strong>, or
+                    <strong>Diabetes</strong>.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 Dashboard
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>Data Analysis & Visualization</h2>
+
+                <p>
+                    Microsoft Power BI was used to explore patterns in the
+                    BRFSS data and create visualizations covering overall
+                    diabetes prevalence, demographic patterns, health risk
+                    factors, socioeconomic and lifestyle characteristics,
+                    model performance, and key predictors.
+                </p>
+
+                <p>
+                    The dashboard includes analysis of factors such as age,
+                    BMI, sex, income, education, smoking, physical activity,
+                    fruit and vegetable intake, and reported general health.
+                </p>
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="btn btn-secondary"
+                >
+                    View Data Dashboard
+                </a>
+
+            </div>
+
+
+            <!-- =========================
+                 Technologies
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>Technologies Used</h2>
+
+                <div class="about-feature-grid">
+
+                    <span>Python</span>
+                    <span>Pandas</span>
+                    <span>Scikit-learn</span>
+                    <span>Flask</span>
+                    <span>HTML</span>
+                    <span>CSS</span>
+                    <span>JavaScript</span>
+                    <span>Power BI</span>
+                    <span>Git / GitHub</span>
+                    <span>Render</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 Limitations
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>Limitations</h2>
+
+                <p>
+                    BRFSS is primarily based on self-reported survey
+                    information. Self-reported health conditions and
+                    behaviors may be affected by recall, awareness,
+                    reporting differences, and other sources of bias.
+                </p>
+
+                <p>
+                    In particular, the diabetes outcome used in this
+                    project reflects reported diabetes or prediabetes
+                    status rather than laboratory measurements such as
+                    blood glucose or A1C results.
+                </p>
+
+                <p>
+                    The model therefore identifies statistical patterns
+                    within the BRFSS dataset and should not be interpreted
+                    as a clinical diagnostic tool.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 Disclaimer
+                 ========================= -->
+            <div class="about-section">
+
+                <h2>Disclaimer</h2>
+
+                <p>
+                    This project is an independent educational and
+                    portfolio project based on the 2025 CDC Behavioral
+                    Risk Factor Surveillance System (BRFSS) public-use
+                    data.
+                </p>
+
+                <p>
+                    Prediction results are generated by a machine learning
+                    model for educational and research purposes only.
+                    They are not a medical diagnosis, clinical risk
+                    assessment, or medical advice and should not replace
+                    laboratory testing or consultation with a qualified
+                    healthcare professional.
+                </p>
+
+                <p>
+                    Source: Centers for Disease Control and Prevention
+                    (CDC), Behavioral Risk Factor Surveillance System
+                    (BRFSS), 2025.
+                </p>
+
+                <p>
+                    This project is not affiliated with, sponsored by, or
+                    endorsed by the CDC, the U.S. Department of Health and
+                    Human Services, or the U.S. Government.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
