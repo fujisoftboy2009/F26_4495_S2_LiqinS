@@ -73,28 +73,57 @@
         <h2>Health Information</h2>
         <p>Please provide some basic information about your health.</p>
     </div>
-    <form method="POST">
+    <form method="POST" id="health_form">
+    {% if error %}
+    <p role="alert" style="color: #a4262c; margin-bottom: 16px;">{{ error }}</p>
+    {% endif %}
 
 <div class="form-grid">
 
-    <!-- BMI -->
+    <!-- Height and weight: BMI is calculated automatically -->
     <div class="field-group">
-        <label for="BMI">BMI</label>
-
-        <input
-            id="BMI"
-            type="number"
-            step="0.1"
-            min="10"
-            max="80"
-            name="BMI"
-            placeholder="Example: 24.6"
-            required
-        >
-
-        <small>Enter your Body Mass Index (BMI).</small>
+        <label for="height_unit">Height</label>
+        <select id="height_unit" name="height_unit">
+            <option value="cm" {% if form_data.get('height_unit', 'cm') == 'cm' %}selected{% endif %}>Centimeters (cm)</option>
+            <option value="ft_in" {% if form_data.get('height_unit') == 'ft_in' %}selected{% endif %}>Feet and inches (ft / in)</option>
+        </select>
+        <div id="metric_height" style="margin-top: 8px;">
+            <input id="height_cm" name="height_cm" type="number" min="0.1" step="any"
+                   placeholder="Example: 175" aria-label="Height in centimeters"
+                   value="{{ form_data.get('height_cm', '') }}">
+        </div>
+        <div id="imperial_height" style="margin-top: 8px;" hidden>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+                <div>
+                    <input id="height_feet" name="height_feet" type="number" min="0" step="1"
+                           placeholder="5" aria-label="Feet" value="{{ form_data.get('height_feet', '') }}" disabled>
+                    <small>Feet (ft)</small>
+                </div>
+                <div>
+                    <input id="height_inches" name="height_inches" type="number" min="0" step="any"
+                           placeholder="9" aria-label="Inches" value="{{ form_data.get('height_inches', '') }}" disabled>
+                    <small>Inches (0–less than 12)</small>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="field-group">
+        <label for="weight_unit">Weight</label>
+        <select id="weight_unit" name="weight_unit">
+            <option value="kg" {% if form_data.get('weight_unit', 'kg') == 'kg' %}selected{% endif %}>Kilograms (kg)</option>
+            <option value="lb" {% if form_data.get('weight_unit') == 'lb' %}selected{% endif %}>Pounds (lb)</option>
+        </select>
+        <input id="weight" name="weight" type="number" min="0.1" step="any" required
+               style="margin-top: 8px;" placeholder="Example: 70" aria-label="Weight"
+               value="{{ form_data.get('weight', '') }}">
+    </div>
+
+    <div class="field-group" style="grid-column: 1 / -1; background: #edf4f8; border-radius: 10px; padding: 14px;">
+        <strong>Calculated BMI: <output id="bmi_preview" aria-live="polite">—</output></strong>
+        <small id="bmi_hint">BMI is automatically calculated from your height and weight.</small>
+        <noscript><small>Please enable JavaScript to use the unit selector and BMI calculator.</small></noscript>
+    </div>
 
     <!-- High Blood Pressure -->
     <fieldset class="field-group">
@@ -107,6 +136,7 @@
                     type="radio"
                     name="HighBP"
                     value="High Blood Pressure"
+                    {% if form_data.get('HighBP') == 'High Blood Pressure' %}checked{% endif %}
                     data-display="Yes"
                     required
                 >
@@ -118,6 +148,7 @@
                     type="radio"
                     name="HighBP"
                     value="No High Blood Pressure"
+                    {% if form_data.get('HighBP') == 'No High Blood Pressure' %}checked{% endif %}
                     data-display="No"
                 >
                 <span>No</span>
@@ -138,6 +169,7 @@
                     type="radio"
                     name="HighChol"
                     value="High Cholesterol"
+                    {% if form_data.get('HighChol') == 'High Cholesterol' %}checked{% endif %}
                     data-display="Yes"
                     required
                 >
@@ -149,6 +181,7 @@
                     type="radio"
                     name="HighChol"
                     value="No High Cholesterol"
+                    {% if form_data.get('HighChol') == 'No High Cholesterol' %}checked{% endif %}
                     data-display="No"
                 >
                 <span>No</span>
@@ -167,15 +200,15 @@
             name="General_Health"
             required
         >
-            <option value="" selected disabled>
+            <option value="" {% if not form_data.get('General_Health') %}selected{% endif %} disabled>
                 Select general health
             </option>
 
-            <option value="Excellent">Excellent</option>
-            <option value="Very Good">Very Good</option>
-            <option value="Good">Good</option>
-            <option value="Fair">Fair</option>
-            <option value="Poor">Poor</option>
+            <option value="Excellent" {% if form_data.get('General_Health') == 'Excellent' %}selected{% endif %}>Excellent</option>
+            <option value="Very Good" {% if form_data.get('General_Health') == 'Very Good' %}selected{% endif %}>Very Good</option>
+            <option value="Good" {% if form_data.get('General_Health') == 'Good' %}selected{% endif %}>Good</option>
+            <option value="Fair" {% if form_data.get('General_Health') == 'Fair' %}selected{% endif %}>Fair</option>
+            <option value="Poor" {% if form_data.get('General_Health') == 'Poor' %}selected{% endif %}>Poor</option>
 
         </select>
     </div>
@@ -206,6 +239,82 @@
 </main>
 
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+<script>
+(function () {
+    const heightUnit = document.getElementById('height_unit');
+    const weightUnit = document.getElementById('weight_unit');
+    const cm = document.getElementById('height_cm');
+    const feet = document.getElementById('height_feet');
+    const inches = document.getElementById('height_inches');
+    const weight = document.getElementById('weight');
+    const preview = document.getElementById('bmi_preview');
+    const hint = document.getElementById('bmi_hint');
+    const form = document.getElementById('health_form');
+
+    function syncHeightFields() {
+        const metric = heightUnit.value === 'cm';
+        document.getElementById('metric_height').hidden = !metric;
+        document.getElementById('imperial_height').hidden = metric;
+        cm.disabled = !metric;
+        cm.required = metric;
+        feet.disabled = inches.disabled = metric;
+        feet.required = inches.required = !metric;
+    }
+
+    function updateBMI() {
+        const metric = heightUnit.value === 'cm';
+        const inputs = metric ? [cm, weight] : [feet, inches, weight];
+        const height = metric ? cm.valueAsNumber / 100 :
+            (feet.valueAsNumber * 12 + inches.valueAsNumber) * 0.0254;
+        const kg = weight.valueAsNumber * (weightUnit.value === 'kg' ? 1 : 0.45359237);
+        const bmi = kg / height / height;
+
+        weight.setCustomValidity('');
+        inches.setCustomValidity('');
+        if (!metric && inches.value !== '' && inches.valueAsNumber >= 12) {
+            inches.setCustomValidity('Enter inches from 0 up to, but not including, 12.');
+        }
+        const valid = inputs.every(input => input.value !== '' && input.validity.valid)
+            && height > 0 && kg > 0 && Number.isFinite(bmi);
+        preview.textContent = valid ? bmi.toFixed(1) : '—';
+        hint.textContent = 'BMI is automatically calculated from your height and weight.';
+        if (valid && (bmi < 10 || bmi > 80)) {
+            const message = 'Please check your measurements. BMI must be between 10 and 80.';
+            weight.setCustomValidity(message);
+            hint.textContent = message;
+        }
+    }
+
+    function updateWeightLabel() {
+        weight.placeholder = weightUnit.value === 'kg' ? 'Example: 70' : 'Example: 154';
+        weight.setAttribute('aria-label', weightUnit.value === 'kg' ? 'Weight in kilograms' : 'Weight in pounds');
+    }
+
+    heightUnit.addEventListener('change', function () {
+        // Clear old values so a measurement cannot accidentally be used in the wrong unit.
+        cm.value = feet.value = inches.value = '';
+        syncHeightFields();
+        updateBMI();
+    });
+    weightUnit.addEventListener('change', function () {
+        weight.value = '';
+        updateWeightLabel();
+        updateBMI();
+    });
+    [cm, feet, inches, weight].forEach(input => input.addEventListener('input', updateBMI));
+    form.addEventListener('submit', function (event) {
+        updateBMI();
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            form.reportValidity();
+        }
+    });
+    syncHeightFields();
+    updateWeightLabel();
+    updateBMI();
+})();
+</script>
 
 </body>
 </html>

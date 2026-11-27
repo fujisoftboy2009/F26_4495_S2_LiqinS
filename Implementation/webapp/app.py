@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import pandas as pd
 import joblib
 import os
+import math
 
 import webbrowser
 from threading import Timer
@@ -48,21 +49,70 @@ def home():
     )
 
 
+def calculate_bmi(form):
+    """Convert the selected units and calculate BMI on the server."""
+    height_unit = form.get("height_unit")
+    weight_unit = form.get("weight_unit")
+
+    if height_unit == "cm":
+        height_m = float(form.get("height_cm", "")) / 100
+    elif height_unit == "ft_in":
+        feet = float(form.get("height_feet", ""))
+        inches = float(form.get("height_inches", ""))
+        if not math.isfinite(feet) or not feet.is_integer() or feet < 0 or not 0 <= inches < 12:
+            raise ValueError("Enter whole feet and inches between 0 and 12 (not including 12).")
+        height_m = (feet * 12 + inches) * 0.0254
+    else:
+        raise ValueError("Select a valid height unit.")
+
+    weight_kg = float(form.get("weight", ""))
+    if weight_unit == "lb":
+        weight_kg *= 0.45359237
+    elif weight_unit != "kg":
+        raise ValueError("Select a valid weight unit.")
+
+    if not math.isfinite(height_m) or not math.isfinite(weight_kg) or height_m <= 0 or weight_kg <= 0:
+        raise ValueError("Enter a valid positive height and weight.")
+
+    bmi = weight_kg / height_m / height_m
+    if not math.isfinite(bmi) or not 10 <= bmi <= 80:
+        raise ValueError("Calculated BMI must be between 10 and 80. Please check your measurements.")
+
+    return round(bmi, 1)
+
+
 @app.route("/health-information", methods=["GET", "POST"])
 def health_information():
 
     if request.method == "POST":
+        try:
+            bmi = calculate_bmi(request.form)
+        except (ValueError, OverflowError, ZeroDivisionError):
+            return render_template(
+                "healthInformation.html",
+                form_data=request.form,
+                error="Please enter valid height and weight measurements. Calculated BMI must be between 10 and 80."
+            ), 400
 
         session["step2"] = {
-            "BMI": request.form["BMI"],
+            "BMI": bmi,
             "HighBP": request.form["HighBP"],
             "HighChol": request.form["HighChol"],
             "General_Health": request.form["General_Health"]
         }
 
+        # Retain the display units and measurements separately from model features.
+        session["health_measurements"] = {
+            key: request.form.get(key, "")
+            for key in ("height_unit", "height_cm", "height_feet", "height_inches", "weight_unit", "weight")
+        }
+
         return redirect(url_for("lifestyle"))
 
-    return render_template("healthInformation.html")
+    return render_template(
+        "healthInformation.html",
+        form_data={**session.get("step2", {}), **session.get("health_measurements", {})}
+    )
 
 
 @app.route("/lifestyle", methods=["GET", "POST"])
